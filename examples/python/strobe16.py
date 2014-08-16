@@ -4,14 +4,15 @@
 
 import opc, time
 
-numLEDs = 256
+numLEDs = 16
+brightness = 64
 client = opc.Client('localhost:7890')
 
 black = [ (0,0,0) ] * numLEDs
-white = [ (255,255,255) ] * numLEDs
-red = [ (255,0,0) ] * numLEDs
-blue = [ (0,255,0) ] * numLEDs
-green = [ (0,0,255) ] * numLEDs
+white = [ (brightness,brightness,brightness) ] * numLEDs
+red = [ (brightness,0,0) ] * numLEDs
+blue = [ (0,brightness,0) ] * numLEDs
+green = [ (0,0,brightness) ] * numLEDs
 
 while True:
     client.put_pixels(white)
