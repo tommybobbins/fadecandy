@@ -185,9 +185,6 @@ src/httpdocs.cpp: http/* http/js/* http/css/*
 
 clean:
 	rm -f $(CLEAN_FILES) $(TARGET)
-	sudo insserv -r rpi_fcserver.sh
-	sudo rm /etc/init.d/rpi_fcserver.sh
-	sudo rm /usr/local/bin/fcserver
 
 # Git submodules handling. TODO: Add submodules cleaning to clean target 
 SUBMODULES_TARGETS:=$(shell git config -f ../.gitmodules --get-regexp submodule'.*\.'path|cut -d ' ' -f 2|cut -d '/' -f 2)
@@ -198,8 +195,13 @@ submodules: $(SUBMODULES_TARGETS)
 .PHONY: submodules $(SUBMODULES_TARGETS) clean all
 
 install:
-	@echo "Installing into $(DESTDIR)"
-	sudo cp -p fcserver $(DESTDIR)/bin
+	@echo "Installing into /usr/local/bin/"
+	sudo cp -p fcserver /usr/local/bin/
 	sudo cp -p ../init/rpi_fcserver.sh /etc/init.d/rpi_fcserver.sh
 	sudo insserv rpi_fcserver.sh
 	@echo "Install complete"
+
+uninstall:
+	sudo insserv -r rpi_fcserver.sh
+	sudo rm /etc/init.d/rpi_fcserver.sh
+	sudo rm /usr/local/bin/fcserver
